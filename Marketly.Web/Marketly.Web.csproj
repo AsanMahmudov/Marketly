@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Core\Marketly.Core.csproj" />
+    <ProjectReference Include="..\Data\Marketly.Data.csproj" />
   </ItemGroup>
 
 </Project>

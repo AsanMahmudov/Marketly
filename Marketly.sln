@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36518.9 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marketly.Web", "Marketly.Web\Marketly.Web.csproj", "{AAD846A7-1F96-4E84-BA0C-54FA26F692DA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marketly.Core", "Core\Marketly.Core.csproj", "{2F54017E-11CA-4A2C-8214-C9C8AED5F84D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marketly.Data", "Data\Marketly.Data.csproj", "{20E58985-004F-485F-BD7F-3C0DDB4DD0D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marketly.Web", "Marketly.Web\Marketly.Web.csproj", "{E7B74A61-9762-4A1C-DB80-68953A244B57}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AAD846A7-1F96-4E84-BA0C-54FA26F692DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AAD846A7-1F96-4E84-BA0C-54FA26F692DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AAD846A7-1F96-4E84-BA0C-54FA26F692DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AAD846A7-1F96-4E84-BA0C-54FA26F692DA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2F54017E-11CA-4A2C-8214-C9C8AED5F84D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2F54017E-11CA-4A2C-8214-C9C8AED5F84D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F54017E-11CA-4A2C-8214-C9C8AED5F84D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -27,6 +23,10 @@ Global
 		{20E58985-004F-485F-BD7F-3C0DDB4DD0D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20E58985-004F-485F-BD7F-3C0DDB4DD0D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20E58985-004F-485F-BD7F-3C0DDB4DD0D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7B74A61-9762-4A1C-DB80-68953A244B57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7B74A61-9762-4A1C-DB80-68953A244B57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7B74A61-9762-4A1C-DB80-68953A244B57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7B74A61-9762-4A1C-DB80-68953A244B57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
