@@ -1,6 +1,8 @@
 using System.Diagnostics;
-using Marketly.Web.Models;
+using Marketly.Core.Interfaces;
+using Marketly.Core.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace Marketly.Web.Controllers
 {
