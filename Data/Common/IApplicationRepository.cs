@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Marketly.Core.Common
 {
-    internal interface IApplicationRepository : IRepository
+    public interface IApplicationRepository : IRepository
     {
     }
 }
