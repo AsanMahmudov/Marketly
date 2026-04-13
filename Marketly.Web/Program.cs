@@ -4,7 +4,7 @@ using Marketly.Core.Services;
 using Marketly.Web.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Marketly.Core.
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -18,11 +18,10 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IApplicationRepository, ApplicationRepository>();
-builder.Services.AddScoped<IAdService, AdService>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<IImageService, ImageService>();
-builder.Services.AddScoped<IMessageService, MessageService>();
-builder.Services.AddScoped<IUserService, IUserService>();
+//builder.Services.AddScoped<IAdService, AdService>();
+//builder.Services.AddScoped<ICategoryService, CategoryService>();
+//builder.Services.AddScoped<IMessageService, MessageService>();
+//builder.Services.AddScoped<IUserService, IUserService>();
 
 
 
