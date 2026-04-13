@@ -3,7 +3,7 @@
     using Microsoft.AspNetCore.Identity;
     using System.ComponentModel.DataAnnotations;
 
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser 
     {
         [Required]
         [MaxLength(50)]

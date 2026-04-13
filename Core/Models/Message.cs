@@ -11,7 +11,7 @@ namespace Marketly.Core.Models
     public class Message
     {
         [Key]
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public int Id { get; set; } 
 
         [Required]
         [MaxLength(1000)]
@@ -22,7 +22,7 @@ namespace Marketly.Core.Models
         public string SenderId { get; set; } = null!;
         public string ReceiverId { get; set; } = null!;
 
-        public Guid AdId { get; set; }
+        public int AdId { get; set; } 
         [ForeignKey(nameof(AdId))]
         public Ad Ad { get; set; } = null!;
     }

@@ -13,7 +13,7 @@ namespace Marketly.Core.Models
         [ForeignKey(nameof(UserId))]
         public ApplicationUser User { get; set; } = null!;
 
-        public Guid AdId { get; set; }
+        public int AdId { get; set; } 
         [ForeignKey(nameof(AdId))]
         public Ad Ad { get; set; } = null!;
     }

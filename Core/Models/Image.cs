@@ -11,12 +11,12 @@ namespace Marketly.Core.Models
     public class Image
     {
         [Key]
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public int Id { get; set; }
 
         [Required]
         public string Url { get; set; } = null!;
 
-        public Guid AdId { get; set; }
+        public int AdId { get; set; }
         [ForeignKey(nameof(AdId))]
         public Ad Ad { get; set; } = null!;
     }
