@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Marketly.Core.ViewModels.CategoryAdminViewModel>
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Category Management</h2>
+        <a asp-action="Create" class="btn btn-success">+ Add New Category</a>
+    </div>
+
+    <div class="table-responsive bg-white shadow-sm rounded">
+        <table class="table table-hover mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Active Ads</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cat in Model)
+                {
+                    <tr>
+                        <td>@cat.Id</td>
+                        <td>@cat.Name</td>
+                        <td><span class="badge bg-info">@cat.AdCount</span></td>
+                        <td class="text-end">
+                            <a asp-action="Edit" asp-route-id="@cat.Id" class="btn btn-sm btn-outline-warning">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@cat.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
