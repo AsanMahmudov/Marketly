@@ -1,0 +1,13 @@
+﻿@model Marketly.Core.ViewModels.ErrorViewModel
+
+<div class="container text-center py-5">
+    <h1 class="display-1 fw-bold text-danger">500</h1>
+    <h2 class="mb-4">Internal Server Error</h2>
+    <p class="lead">Something went wrong on our end. Please try again later.</p>
+
+    @if (Model.ShowRequestId)
+    {
+        <p class="mt-4 text-muted small">Request ID: <code>@Model.RequestId</code></p>
+    }
+    <a href="/" class="btn btn-outline-dark mt-4">Return Home</a>
+</div>
