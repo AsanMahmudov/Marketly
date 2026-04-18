@@ -1,0 +1,29 @@
+﻿@model Marketly.Core.ViewModels.MessageInboxViewModel
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <a asp-action="Inbox" class="btn btn-link mb-3 text-decoration-none p-0">
+                <i class="bi bi-arrow-left"></i> Back to Inbox
+            </a>
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-0">@Model.Subject</h5>
+                        <small class="text-muted">From: @Model.SenderName</small>
+                    </div>
+                    <small class="text-muted">@Model.SentDate.ToString("f")</small>
+                </div>
+                <div class="card-body p-4 bg-light">
+                    <div class="bg-white p-3 rounded shadow-sm">
+                        @Model.Content
+                    </div>
+                </div>
+                <div class="card-footer bg-white p-3">
+                    <a asp-action="Create" asp-route-recipientId="@Model.SenderId"
+                       asp-route-adId="@Model.RelatedAdId" class="btn btn-primary">Reply to Message</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
