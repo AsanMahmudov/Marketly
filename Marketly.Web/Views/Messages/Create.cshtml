@@ -1,0 +1,36 @@
+﻿@model Marketly.Core.ViewModels.MessageFormModel
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white p-3">
+                    <h5 class="mb-0">Contact Seller</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Create" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="RecipientId" />
+                        <input type="hidden" asp-for="RelatedAdId" />
+
+                        <div class="mb-3">
+                            <label asp-for="Subject" class="form-label fw-bold">Subject</label>
+                            <input asp-for="Subject" class="form-control" placeholder="Inquiry about item..." />
+                            <span asp-validation-for="Subject" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Content" class="form-label fw-bold">Message</label>
+                            <textarea asp-for="Content" class="form-control" rows="6" placeholder="Write your message here..."></textarea>
+                            <span asp-validation-for="Content" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
