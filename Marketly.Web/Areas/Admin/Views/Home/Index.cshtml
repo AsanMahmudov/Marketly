@@ -1,0 +1,32 @@
+﻿<div class="container-fluid py-4">
+    <h1 class="h2 mb-4">Administration Dashboard</h1>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white border-0 shadow-sm">
+                <div class="card-body text-center py-4">
+                    <h5 class="card-title">Manage Categories</h5>
+                    <p class="card-text display-6">Update & Add</p>
+                    <a asp-area="Admin" asp-controller="Categories" asp-action="Index" class="btn btn-light">Go to Categories</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-dark text-white border-0 shadow-sm">
+                <div class="card-body text-center py-4">
+                    <h5 class="card-title">User Reports</h5>
+                    <p class="card-text display-6">Manage Access</p>
+                    <button class="btn btn-outline-light">Review Flags</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-success text-white border-0 shadow-sm">
+                <div class="card-body text-center py-4">
+                    <h5 class="card-title">Global Ads</h5>
+                    <p class="card-text display-6">Moderation</p>
+                    <a asp-area="" asp-controller="Ads" asp-action="All" class="btn btn-light">Review All Ads</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
