@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Marketly.Core.ViewModels.AdMinifiedViewModel>
+
+<div class="container py-4">
+    <div class="border-bottom pb-3 mb-4">
+        <h2>Your Watchlist</h2>
+        <p class="text-muted">You have @Model.Count() saved items.</p>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5">
+            <h4 class="text-muted">Your watchlist is currently empty.</h4>
+            <a asp-action="All" class="btn btn-primary mt-3">Browse Marketplace</a>
+        </div>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+            @foreach (var ad in Model)
+            {
+                <div class="col">
+                    <partial name="_AdCardPartial" model="ad" />
+                </div>
+            }
+        </div>
+    }
+</div>
