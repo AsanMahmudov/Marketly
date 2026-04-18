@@ -1,0 +1,27 @@
+﻿@model Marketly.Core.ViewModels.UserProfileViewModel
+
+<div class="container py-5">
+    <div class="card border-0 shadow-sm p-4 mb-5 bg-light">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; font-size: 2rem;">
+                    @Model.Username[0]
+                </div>
+            </div>
+            <div class="col">
+                <h2 class="mb-0">@Model.Username</h2>
+                <p class="text-muted mb-0">Member since @Model.JoinDate.ToShortDateString() | @(Model.City ?? "Global Seller")</p>
+            </div>
+        </div>
+    </div>
+
+    <h4 class="mb-4">Seller Listings</h4>
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        @foreach (var ad in Model.UserAds)
+        {
+            <div class="col">
+                <partial name="_AdCardPartial" model="ad" />
+            </div>
+        }
+    </div>
+</div>
