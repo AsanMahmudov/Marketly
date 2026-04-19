@@ -18,5 +18,6 @@ namespace Marketly.Core.Interfaces
         Task DeleteAsync(int id);
         Task<bool> ExistsAsync(int id);
         Task<bool> IsSellerWithIdAsync(int adId, string userId);
+        Task<IEnumerable<AdMinifiedViewModel>> GetLatestAsync(int count);
     }
 }

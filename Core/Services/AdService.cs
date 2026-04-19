@@ -151,5 +151,23 @@ namespace Marketly.Core.Services
 
         public async Task<bool> IsSellerWithIdAsync(int adId, string userId) =>
             await repository.All<Ad>().AnyAsync(a => a.Id == adId && a.SellerId == userId);
+
+        public async Task<IEnumerable<AdMinifiedViewModel>> GetLatestAsync(int count)
+        {
+            return await repository.All<Ad>()
+                .Where(a => a.IsActive)
+                .OrderByDescending(a => a.CreatedOn) // Gets newest first
+                .Take(count)
+                .Select(a => new AdMinifiedViewModel
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    Price = a.Price,
+                    Category = a.Category.Name,
+                    // Uses the first image if it exists, otherwise a placeholder
+                    ImageUrl = a.Images.Any() ? a.Images.First().Url : "/img/no-image.png"
+                })
+                .ToListAsync();
+        }
     }
 }
