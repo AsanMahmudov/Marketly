@@ -63,7 +63,7 @@ namespace Marketly.Web.Data.Migrations
 
                     b.HasIndex("SellerId");
 
-                    b.ToTable("Ads");
+                    b.ToTable("Ads", (string)null);
                 });
 
             modelBuilder.Entity("Marketly.Core.Models.ApplicationUser", b =>
@@ -156,7 +156,7 @@ namespace Marketly.Web.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Marketly.Core.Models.Image", b =>
@@ -178,7 +178,7 @@ namespace Marketly.Web.Data.Migrations
 
                     b.HasIndex("AdId");
 
-                    b.ToTable("Images");
+                    b.ToTable("Images", (string)null);
                 });
 
             modelBuilder.Entity("Marketly.Core.Models.Message", b =>
@@ -214,7 +214,7 @@ namespace Marketly.Web.Data.Migrations
 
                     b.HasIndex("AdId");
 
-                    b.ToTable("Messages");
+                    b.ToTable("Messages", (string)null);
                 });
 
             modelBuilder.Entity("Marketly.Core.Models.UserAd", b =>
@@ -230,7 +230,7 @@ namespace Marketly.Web.Data.Migrations
 
                     b.HasIndex("AdId");
 
-                    b.ToTable("UsersAds");
+                    b.ToTable("UsersAds", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
