@@ -4,92 +4,78 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace Marketly.Web.Controllers
+[Authorize]
+public class AdsController : Controller
 {
-    public class AdsController : Controller
+    private readonly IAdService adService;
+    private readonly ICategoryService categoryService;
+
+    public AdsController(IAdService _adService, ICategoryService _categoryService)
     {
-        private readonly IAdService adService;
-        private readonly ICategoryService categoryService;
-        private readonly IUserService userService;
+        adService = _adService;
+        categoryService = _categoryService;
+    }
 
-        public AdsController(IAdService _adService, ICategoryService _categoryService, IUserService _userService)
+    [AllowAnonymous]
+    public async Task<IActionResult> All([FromQuery] AdQueryModel query)
+    {
+        var serviceModel = await adService.AllAsync(query.SelectedCategory, query.SearchTerm, query.CurrentPage == 0 ? 1 : query.CurrentPage, 6);
+        query.TotalAds = serviceModel.TotalAds;
+        query.Ads = serviceModel.Ads;
+        query.TotalPages = serviceModel.TotalPages;
+        query.Categories = await categoryService.AllCategoriesAsync();
+        return View(query);
+    }
+
+    [AllowAnonymous]
+    public async Task<IActionResult> Details(int id)
+    {
+        if (!await adService.ExistsAsync(id)) return NotFound();
+        return View(await adService.GetDetailsByIdAsync(id));
+    }
+
+    public async Task<IActionResult> Create()
+        => View(new AdFormModel { Categories = await categoryService.AllCategoriesAsync() });
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(AdFormModel model)
+    {
+        if (!ModelState.IsValid)
         {
-            adService = _adService;
-            categoryService = _categoryService;
-            userService = _userService;
-        }
-
-        [AllowAnonymous]
-        public async Task<IActionResult> All([FromQuery] AdQueryModel query)
-        {
-            var serviceModel = await adService.AllAsync(query.SelectedCategory, query.SearchTerm, query.CurrentPage == 0 ? 1 : query.CurrentPage, 6);
-            query.TotalAds = serviceModel.TotalAds;
-            query.Ads = serviceModel.Ads;
-            query.TotalPages = serviceModel.TotalPages;
-            query.Categories = await categoryService.AllCategoriesAsync();
-            return View(query);
-        }
-
-        [AllowAnonymous]
-        public async Task<IActionResult> Details(int id)
-        {
-            if (!await adService.ExistsAsync(id)) return NotFound();
-            return View(await adService.GetDetailsByIdAsync(id));
-        }
-
-        [Authorize]
-        public async Task<IActionResult> Create() => View(new AdFormModel { Categories = await categoryService.AllCategoriesAsync() });
-
-        [Authorize]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(AdFormModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                model.Categories = await categoryService.AllCategoriesAsync();
-                return View(model);
-            }
-            await adService.CreateAsync(model, User.FindFirstValue(ClaimTypes.NameIdentifier));
-            return RedirectToAction(nameof(All));
-        }
-
-        [Authorize]
-        public async Task<IActionResult> Edit(int id)
-        {
-            if (!await adService.IsSellerWithIdAsync(id, User.FindFirstValue(ClaimTypes.NameIdentifier))) return Unauthorized();
-            var model = await adService.GetFormModelByIdAsync(id);
             model.Categories = await categoryService.AllCategoriesAsync();
             return View(model);
         }
+        await adService.CreateAsync(model, User.FindFirstValue(ClaimTypes.NameIdentifier));
+        return RedirectToAction(nameof(All));
+    }
 
-        [Authorize]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, AdFormModel model)
+    public async Task<IActionResult> Edit(int id)
+    {
+        if (!await adService.IsSellerWithIdAsync(id, User.FindFirstValue(ClaimTypes.NameIdentifier))) return Unauthorized();
+        var model = await adService.GetFormModelByIdAsync(id);
+        model.Categories = await categoryService.AllCategoriesAsync();
+        return View(model); 
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(int id, AdFormModel model)
+    {
+        if (!await adService.IsSellerWithIdAsync(id, User.FindFirstValue(ClaimTypes.NameIdentifier))) return Unauthorized();
+        if (!ModelState.IsValid)
         {
-            if (!await adService.IsSellerWithIdAsync(id, User.FindFirstValue(ClaimTypes.NameIdentifier)))
-                return Unauthorized();
-
-            if (!ModelState.IsValid)
-            {
-                model.Categories = await categoryService.AllCategoriesAsync();
-                return View(model);
-            }
-
-            await adService.EditAsync(id, model);
-            return RedirectToAction(nameof(Details), new { id });
+            model.Categories = await categoryService.AllCategoriesAsync();
+            return View(model);
         }
+        await adService.EditAsync(id, model);
+        return RedirectToAction(nameof(Details), new { id });
+    }
 
-        [Authorize]
-        public async Task<IActionResult> Watchlist() => View(await userService.GetFavoriteAdsAsync(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+    public async Task<IActionResult> MyAds()
+    {
 
-        [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> AddToWatchlist(int id)
-        {
-            await userService.AddToFavoritesAsync(User.FindFirstValue(ClaimTypes.NameIdentifier), id);
-            return RedirectToAction(nameof(Watchlist));
-        }
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        return View();
     }
 }
