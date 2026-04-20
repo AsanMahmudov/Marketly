@@ -11,5 +11,7 @@ namespace Marketly.Core.Interfaces
     {
         Task<IEnumerable<MessageInboxViewModel>> GetUserMessagesAsync(string userId);
         Task SendMessageAsync(MessageFormModel model, string senderId);
+
+        Task<IEnumerable<MessageInboxViewModel>> GetConversationAsync(int messageId, string userId);
     }
 }

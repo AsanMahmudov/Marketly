@@ -64,5 +64,16 @@ namespace Marketly.Web.Controllers
 
             return RedirectToAction(nameof(Inbox));
         }
+
+
+        public async Task<IActionResult> Details(int id)
+        {
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            IEnumerable<MessageInboxViewModel> thread = await messageService.GetConversationAsync(id, userId);
+
+            if (!thread.Any()) return NotFound();
+
+            return View(thread); 
+        }
     }
 }

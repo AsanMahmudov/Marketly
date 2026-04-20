@@ -42,5 +42,30 @@ namespace Marketly.Core.Services
             await repository.AddAsync(message);
             await repository.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<MessageInboxViewModel>> GetConversationAsync(int messageId, string userId)
+        {
+            var anchor = await repository.All<Message>()
+                .FirstOrDefaultAsync(m => m.Id == messageId);
+
+            if (anchor == null) return Enumerable.Empty<MessageInboxViewModel>();
+
+            return await repository.All<Message>()
+                .Where(m => m.AdId == anchor.AdId &&
+                      ((m.SenderId == anchor.SenderId && m.ReceiverId == anchor.ReceiverId) ||
+                       (m.SenderId == anchor.ReceiverId && m.ReceiverId == anchor.SenderId)))
+                .OrderBy(m => m.SentOn) // Oldest at top, newest at bottom
+                .Select(m => new MessageInboxViewModel
+                {
+                    Id = m.Id,
+                    Content = m.Content,
+                    SentDate = m.SentOn,
+                    SenderId = m.SenderId,
+                    ReceiverId = m.ReceiverId,
+                    SenderName = m.SenderId == userId ? "Me" : "User",
+                    RelatedAdId = m.AdId
+                })
+                .ToListAsync();
+        }
     }
 }

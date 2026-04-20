@@ -3,12 +3,12 @@
     public class MessageInboxViewModel
     {
         public int Id { get; set; }
-        public string SenderName { get; set; } = string.Empty;
-        public string SenderId { get; set; } = string.Empty;
-        public string Subject { get; set; } = string.Empty;
-        public string Content { get; set; } = string.Empty;
+        public string SenderId { get; set; } = null!;
+        public string ReceiverId { get; set; } = null!; 
+        public string SenderName { get; set; } = null!;
+        public string Content { get; set; } = null!;
         public DateTime SentDate { get; set; }
+        public int RelatedAdId { get; set; }
         public bool IsRead { get; set; }
-        public int? RelatedAdId { get; set; }
     }
 }
