@@ -63,7 +63,7 @@
                         {
                             @if (isOwner)
                             {
-                                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit Listing</a>
+                                <a asp-controller="Ads" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit Listing</a>
                             }
                             else
                             {
@@ -72,8 +72,9 @@
                                    asp-route-adId="@Model.Id"
                                    class="btn btn-primary">Message Seller</a>
 
-                                <form asp-action="AddToWatchlist" asp-route-id="@Model.Id" method="post">
-                                    <button type="submit" class="btn btn-outline-danger">Add to Watchlist</button>
+                                <form asp-controller="Users" asp-action="AddToWatchlist" asp-route-id="@Model.Id" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-outline-danger w-100">Add to Watchlist</button>
                                 </form>
                             }
                         }
