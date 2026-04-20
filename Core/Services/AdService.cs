@@ -34,7 +34,9 @@ namespace Marketly.Core.Services
                                                a.Description.ToLower().Contains(normalizedSearch));
             }
 
+            var totalAds = await adsQuery.CountAsync();
             var ads = await adsQuery
+                .OrderByDescending(a => a.CreatedOn) // Best practice: show newest ads first
                 .Skip((currentPage - 1) * adsPerPage)
                 .Take(adsPerPage)
                 .Select(a => new AdMinifiedViewModel
@@ -44,17 +46,16 @@ namespace Marketly.Core.Services
                     Price = a.Price,
                     Category = a.Category.Name,
                     ImageUrl = a.Images.Any() ? a.Images.First().Url : "/img/no-image.png",
-                    SellerName = a.Seller.UserName!
-                }).ToListAsync();
-
-            int totalAds = await adsQuery.CountAsync();
+                    SellerName = $"{a.Seller.FirstName} {a.Seller.LastName}"
+                })
+                .ToListAsync();
 
             return new AdQueryModel
             {
-                TotalAds = totalAds,
                 Ads = ads,
-                TotalPages = (int)Math.Ceiling((double)totalAds / adsPerPage),
-                CurrentPage = currentPage
+                TotalAds = totalAds,
+                CurrentPage = currentPage,
+                TotalPages = (int)Math.Ceiling((double)totalAds / adsPerPage)
             };
         }
 
@@ -77,7 +78,7 @@ namespace Marketly.Core.Services
                 }).FirstAsync();
         }
 
-        public async Task<int> CreateAsync(AdFormModel model, string sellerId)
+        public async Task CreateAsync(AdFormModel model, string userId)
         {
             var ad = new Ad
             {
@@ -85,19 +86,20 @@ namespace Marketly.Core.Services
                 Description = model.Description,
                 Price = model.Price,
                 CategoryId = model.CategoryId,
-                SellerId = sellerId,
+                SellerId = userId,
                 CreatedOn = DateTime.UtcNow,
                 IsActive = true
             };
 
-            // Image processing logic
+            // Image Upload Logic
             if (model.ImageFiles != null && model.ImageFiles.Any())
             {
-                string uploadDir = Path.Combine(environment.WebRootPath, "img", "ads");
+                string uploadDir = Path.Combine(environment.WebRootPath, "img/ads");
                 if (!Directory.Exists(uploadDir)) Directory.CreateDirectory(uploadDir);
 
                 foreach (var file in model.ImageFiles)
                 {
+                    // Create a unique filename to prevent overwriting
                     string fileName = Guid.NewGuid().ToString() + "_" + file.FileName;
                     string filePath = Path.Combine(uploadDir, fileName);
 
@@ -106,13 +108,17 @@ namespace Marketly.Core.Services
                         await file.CopyToAsync(stream);
                     }
 
-                    ad.Images.Add(new Image { Url = "/img/ads/" + fileName });
+                    ad.Images.Add(new Image { Url = $"/img/ads/{fileName}" });
                 }
+            }
+            else
+            {
+                // Optional: Add a default placeholder if no images are uploaded
+                ad.Images.Add(new Image { Url = "/img/no-image.png" });
             }
 
             await repository.AddAsync(ad);
             await repository.SaveChangesAsync();
-            return ad.Id;
         }
 
         public async Task EditAsync(int id, AdFormModel model)

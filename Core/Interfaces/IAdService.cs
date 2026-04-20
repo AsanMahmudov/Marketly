@@ -12,7 +12,7 @@ namespace Marketly.Core.Interfaces
         Task<AdQueryModel> AllAsync(string? category = null, string? searchTerm = null, int currentPage = 1, int adsPerPage = 1);
 
         Task<AdDetailsViewModel> GetDetailsByIdAsync(int id);
-        Task<int> CreateAsync(AdFormModel model, string sellerId);
+        Task CreateAsync(AdFormModel model, string sellerId);
         Task EditAsync(int id, AdFormModel model);
         Task<AdFormModel> GetFormModelByIdAsync(int id);
         Task DeleteAsync(int id);
