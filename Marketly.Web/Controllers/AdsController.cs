@@ -19,7 +19,12 @@ public class AdsController : Controller
     [AllowAnonymous]
     public async Task<IActionResult> All([FromQuery] AdQueryModel query)
     {
-        var serviceModel = await adService.AllAsync(query.SelectedCategory, query.SearchTerm, query.CurrentPage == 0 ? 1 : query.CurrentPage, 6);
+        var serviceModel = await adService.AllAsync(
+        query.SelectedCategory,
+        query.SearchTerm,
+        query.CurrentPage == 0 ? 1 : query.CurrentPage,
+        8);
+
         query.TotalAds = serviceModel.TotalAds;
         query.Ads = serviceModel.Ads;
         query.TotalPages = serviceModel.TotalPages;
