@@ -14,12 +14,6 @@
                         <input type="hidden" asp-for="RelatedAdId" />
 
                         <div class="mb-3">
-                            <label asp-for="Subject" class="form-label fw-bold">Subject</label>
-                            <input asp-for="Subject" class="form-control" placeholder="Inquiry about item..." />
-                            <span asp-validation-for="Subject" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
                             <label asp-for="Content" class="form-label fw-bold">Message</label>
                             <textarea asp-for="Content" class="form-control" rows="6" placeholder="Write your message here..."></textarea>
                             <span asp-validation-for="Content" class="text-danger"></span>

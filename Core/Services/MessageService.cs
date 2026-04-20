@@ -33,9 +33,9 @@ namespace Marketly.Core.Services
             var message = new Message
             {
                 SenderId = senderId,
-                ReceiverId = model.RecipientId, // Mapping RecipientId -> ReceiverId
-                Content = model.Content,
-                AdId = model.RelatedAdId ?? 0,
+                ReceiverId = model.RecipientId,
+                Content = model.Content,       
+                AdId = model.RelatedAdId ?? 0, 
                 SentOn = DateTime.UtcNow
             };
 
