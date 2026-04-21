@@ -1,4 +1,5 @@
 ﻿using Marketly.Core.Interfaces;
+using Marketly.Core.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,24 +8,40 @@ using Microsoft.AspNetCore.Mvc;
 public class CategoriesController : Controller
 {
     private readonly ICategoryService categoryService;
-    public CategoriesController(ICategoryService _categoryService) => categoryService = _categoryService;
+    public CategoriesController(ICategoryService _categoryService)
+        => categoryService = _categoryService;
 
     public async Task<IActionResult> Manage()
-        => View(await categoryService.GetAllForAdminAsync()); // View #13: Category List
+        => View(await categoryService.GetAllForAdminAsync());
 
-    public IActionResult Create() => View(); // View #14: Add Category
+    public IActionResult Create() => View();
 
     [HttpPost]
-    public async Task<IActionResult> Create(string name)
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(CategoryFormModel model)
     {
-        await categoryService.CreateAsync(name);
+        if (!ModelState.IsValid) return View(model);
+
+        await categoryService.CreateAsync(model);
+        TempData["SuccessMessage"] = "Category created successfully!";
         return RedirectToAction(nameof(Manage));
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Delete(int id)
     {
-        await categoryService.DeleteAsync(id); // View #15: Delete Confirmation (or partial)
+        bool success = await categoryService.DeleteAsync(id);
+
+        if (!success)
+        {
+            TempData["ErrorMessage"] = "Cannot delete category while it contains advertisements.";
+        }
+        else
+        {
+            TempData["SuccessMessage"] = "Category removed successfully.";
+        }
+
         return RedirectToAction(nameof(Manage));
     }
 }

@@ -1,0 +1,86 @@
+﻿@model IEnumerable<Marketly.Core.ViewModels.CategoryAdminViewModel>
+
+@{
+    ViewData["Title"] = "Manage Categories";
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+        <div>
+            <h2 class="fw-bold text-dark mb-0">Administrative Oversight</h2>
+            <p class="text-muted mb-0">Manage system categories and monitor listing distribution.</p>
+        </div>
+        <a asp-action="Create" class="btn btn-primary shadow-sm">
+            <i class="bi bi-plus-circle me-1"></i> Add New Category
+        </a>
+    </div>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i> @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="card border-0 shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-4 py-3 text-uppercase small fw-bold text-muted">Category Name</th>
+                        <th class="py-3 text-uppercase small fw-bold text-muted text-center">Active Ads</th>
+                        <th class="pe-4 py-3 text-uppercase small fw-bold text-muted text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Any())
+                    {
+                        <tr>
+                            <td colspan="3" class="text-center py-5 text-muted">
+                                <i class="bi bi-folder-x display-4 d-block mb-2"></i>
+                                No categories found in the system.
+                            </td>
+                        </tr>
+                    }
+                    @foreach (var category in Model)
+                    {
+                        <tr>
+                            <td class="ps-4">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-primary bg-opacity-10 text-primary rounded p-2 me-3">
+                                        <i class="bi bi-tag-fill"></i>
+                                    </div>
+                                    <span class="fw-bold">@category.Name</span>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <span class="badge @(category.AdCount > 0 ? "bg-info text-dark" : "bg-light text-muted") rounded-pill">
+                                    @category.AdCount ads
+                                </span>
+                            </td>
+                            <td class="pe-4 text-end">
+                                <form asp-action="Delete" asp-route-id="@category.Id" method="post"
+                                      class="d-inline-block"
+                                      onsubmit="return confirm('Are you sure? This action cannot be undone if the category is empty.');">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill px-3">
+                                        <i class="bi bi-trash3"></i> Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
