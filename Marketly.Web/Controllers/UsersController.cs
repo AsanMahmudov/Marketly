@@ -13,8 +13,13 @@ public class UsersController : Controller
     public async Task<IActionResult> Profile(string id)
     {
         var model = await userService.GetUserProfileAsync(id);
-        if (model == null) return NotFound();
-        return View(model);
+
+        if (model == null)
+        {
+            return NotFound();
+        }
+
+        return View("Profile", model);
     }
 
     public async Task<IActionResult> Watchlist()
