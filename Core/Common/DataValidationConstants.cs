@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Marketly.Core.Common
+﻿namespace Marketly.Core.Common
 {
     public static class DataValidationConstants
     {
@@ -28,6 +22,14 @@ namespace Marketly.Core.Common
         {
             public const int ContentMinLength = 2;
             public const int ContentMaxLength = 1000;
+        }
+
+        public static class User
+        {
+            public const int FirstNameMinLength = 2;
+            public const int FirstNameMaxLength = 50;
+            public const int LastNameMinLength = 2;
+            public const int LastNameMaxLength = 50;
         }
     }
 }

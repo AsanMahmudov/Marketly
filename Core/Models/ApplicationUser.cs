@@ -2,15 +2,16 @@
 {
     using Microsoft.AspNetCore.Identity;
     using System.ComponentModel.DataAnnotations;
+    using static Marketly.Core.Common.DataValidationConstants.User;
 
-    public class ApplicationUser : IdentityUser 
+    public class ApplicationUser : IdentityUser
     {
         [Required]
-        [MaxLength(50)]
+        [MaxLength(FirstNameMaxLength)]
         public string FirstName { get; set; } = null!;
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(LastNameMaxLength)]
         public string LastName { get; set; } = null!;
 
         public ICollection<Ad> OwnedAds { get; set; } = new HashSet<Ad>();

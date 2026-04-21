@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using static Marketly.Core.Common.DataValidationConstants.Category;
 
 namespace Marketly.Core.Models
 {
@@ -13,7 +9,7 @@ namespace Marketly.Core.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(NameMaxLength)]
         public string Name { get; set; } = null!;
 
         public ICollection<Ad> Ads { get; set; } = new HashSet<Ad>();
