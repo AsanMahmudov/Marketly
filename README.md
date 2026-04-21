@@ -25,16 +25,19 @@ The project is built following the **3-Layer Architecture** pattern to ensure a 
 * **Safety Guards:** The `CategoryService` includes logic to block the deletion of categories that still contain active ads, preventing orphaned records.
 
 ## 🛠️ Key Features
-* **Advanced Pagination:** Server-side pagination is handled in the `AdService` to ensure high performance even with large datasets.
+* **Advanced Pagination:** Server-side pagination is handled to ensure high performance even with large datasets.
 * **Conversation Threading:** Messages are grouped by participants and Ad ID to provide a seamless chat experience.
 * **Secure Admin Area:** A dedicated area for administrators to manage categories, featuring custom Bootstrap modal confirmations for dangerous actions.
-* **Zero-Configuration Setup:** The project is configured to automatically create and seed the database on the first run using **LocalDB**.
+* **Security:** The project uses Razor's built-in HTML encoding to prevent XSS and ensure special characters are escaped correctly.
 
 ## 🚀 How to Run
 1.  **Open** the solution in Visual Studio 2022.
-2.  **Restore** NuGet packages.
-3.  **Ensure** SQL Server LocalDB is running.
-4.  **Press F5:** The application will automatically apply migrations and seed initial data.
+2.  **Set Startup Project:** Right-click the **Marketly.Web** project and select **"Set as Startup Project"**.
+3.  **Restore** NuGet packages.
+4.  **Database Setup:** Open the Package Manager Console, select Data as default project and run the following commands to ensure the database is ready:
+    * `Update-Database`
+5.  **Ensure** SQL Server LocalDB is running.
+6.  **Press F5:** The application will run, and the `DbSeeder` will automatically populate initial data for testing.
 
 ### 🧪 Test Credentials
 | Role | Email | Password |
@@ -47,5 +50,5 @@ The project is built following the **3-Layer Architecture** pattern to ensure a 
 * **Async Mocking:** We utilized `MockQueryable` to simulate complex asynchronous EF Core operations like `ToListAsync()` and `CountAsync()` in a unit test environment.
 * **Coverage:** Business logic services (Ads, Categories, Messages, and Users) maintain high code coverage.
 
-* ## 📜 License
+## 📜 License
 Distributed under the **MIT License**. See the `LICENSE` file for the full text of the agreement.
