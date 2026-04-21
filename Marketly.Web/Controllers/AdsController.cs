@@ -79,8 +79,24 @@ public class AdsController : Controller
 
     public async Task<IActionResult> MyAds()
     {
-
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        return View();
+        var ads = await adService.GetAdsByUserIdAsync(userId);
+
+        return View(ads);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (!await adService.IsSellerWithIdAsync(id, userId))
+        {
+            return Unauthorized();
+        }
+
+        await adService.DeleteAsync(id);
+        return RedirectToAction(nameof(MyAds));
     }
 }

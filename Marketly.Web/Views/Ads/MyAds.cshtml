@@ -1,32 +1,44 @@
 ﻿@model IEnumerable<Marketly.Core.ViewModels.AdMinifiedViewModel>
 
-<div class="container py-4">
+@{
+    ViewData["Title"] = "My Advertisements";
+}
+
+<div class="container py-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>My Active Listings</h2>
+        <h2>My Ads</h2>
         <a asp-action="Create" class="btn btn-success">Post New Ad</a>
     </div>
 
     @if (!Model.Any())
     {
-        <div class="text-center py-5 bg-light rounded">
-            <p class="lead text-muted">You haven't posted any ads yet.</p>
+        <div class="text-center py-5">
+            <p class="text-muted">You haven't posted any advertisements yet.</p>
+            <a asp-action="Create" class="btn btn-primary">Start Selling</a>
         </div>
     }
     else
     {
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
             @foreach (var ad in Model)
             {
                 <div class="col">
-                    <div class="card shadow-sm border-0 h-100">
-                        <img src="@ad.ImageUrl" class="card-img-top" style="height: 180px; object-fit: cover;">
+                    <div class="card h-100 shadow-sm border-0">
+                        <img src="@ad.ImageUrl" class="card-img-top" style="height: 200px; object-fit: cover;" alt="@ad.Title">
                         <div class="card-body">
                             <h5 class="card-title text-truncate">@ad.Title</h5>
-                            <p class="text-success fw-bold">@ad.Price.ToString("C")</p>
-                            <div class="d-grid gap-2">
-                                <a asp-action="Edit" asp-route-id="@ad.Id" class="btn btn-outline-warning btn-sm">Edit Listing</a>
-                                <form asp-action="Delete" asp-route-id="@ad.Id" method="post" onsubmit="return confirm('Are you sure?')">
-                                    <button type="submit" class="btn btn-outline-danger btn-sm w-100">Remove</button>
+                            <p class="text-primary fw-bold mb-1">$@ad.Price</p>
+                            <span class="badge bg-light text-dark mb-3">@ad.Category</span>
+
+                            <div class="d-flex gap-2">
+                                <a asp-action="Details" asp-route-id="@ad.Id" class="btn btn-outline-secondary btn-sm flex-grow-1">View</a>
+                                <a asp-action="Edit" asp-route-id="@ad.Id" class="btn btn-outline-primary btn-sm flex-grow-1">Edit</a>
+                                <form asp-action="Delete" asp-route-id="@ad.Id" method="post" class="flex-grow-1" onsubmit="return confirm('Delete this ad?');">
+                                    <button type="button"
+                                            class="btn btn-outline-danger btn-sm w-100"
+                                            onclick="openDeleteModal('@ad.Id', '@ad.Title')">
+                                        Delete
+                                    </button>
                                 </form>
                             </div>
                         </div>
@@ -36,3 +48,21 @@
         </div>
     }
 </div>
+
+<partial name="_DeleteAdModalPartial" />
+
+@section Scripts {
+    <script>
+        function openDeleteModal(adId, adTitle) {
+            console.log("Opening modal for Ad:", adId);
+
+            document.getElementById('deleteAdId').value = adId;
+
+            document.getElementById('adTitleDisplay').innerText = adTitle;
+
+            var modalElement = document.getElementById('deleteModal');
+            var modalInstance = new bootstrap.Modal(modalElement);
+            modalInstance.show();
+        }
+    </script>
+}

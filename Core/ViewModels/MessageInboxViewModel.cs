@@ -10,5 +10,7 @@
         public DateTime SentDate { get; set; }
         public int RelatedAdId { get; set; }
         public bool IsRead { get; set; }
+        public string? AdTitle { get; set; }
+        public string? AdImageUrl { get; set; }
     }
 }
