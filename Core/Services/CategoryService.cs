@@ -1,4 +1,4 @@
-﻿using Marketly.Core.Common;
+﻿using Marketly.Core.Common; // For IApplicationRepository
 using Marketly.Core.Interfaces;
 using Marketly.Core.Models;
 using Marketly.Core.ViewModels;
@@ -9,7 +9,9 @@ namespace Marketly.Core.Services
     public class CategoryService : ICategoryService
     {
         private readonly IRepository repository;
-        public CategoryService(IRepository _repository) => repository = _repository;
+
+        public CategoryService(IRepository _repository)
+            => repository = _repository;
 
         public async Task<IEnumerable<AdCategoryViewModel>> AllCategoriesAsync()
         {
@@ -30,20 +32,26 @@ namespace Marketly.Core.Services
                 }).ToListAsync();
         }
 
-        public async Task CreateAsync(string name)
+        public async Task CreateAsync(CategoryFormModel model)
         {
-            await repository.AddAsync(new Category { Name = name });
+            await repository.AddAsync(new Category { Name = model.Name });
             await repository.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            var category = await repository.All<Category>().FirstOrDefaultAsync(c => c.Id == id);
-            if (category != null)
+            var category = await repository.All<Category>()
+                .Include(c => c.Ads)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (category == null || category.Ads.Any())
             {
-                repository.Delete(category);
-                await repository.SaveChangesAsync();
+                return false; // Safety check: block if ads exist
             }
+
+            repository.Delete(category);
+            await repository.SaveChangesAsync();
+            return true;
         }
     }
 }

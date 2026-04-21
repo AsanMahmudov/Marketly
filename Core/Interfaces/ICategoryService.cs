@@ -11,7 +11,7 @@ namespace Marketly.Core.Interfaces
     {
         Task<IEnumerable<AdCategoryViewModel>> AllCategoriesAsync();
         Task<IEnumerable<CategoryAdminViewModel>> GetAllForAdminAsync();
-        Task CreateAsync(string name);
-        Task DeleteAsync(int id);
+        Task CreateAsync(CategoryFormModel model);
+        Task<bool> DeleteAsync(int id);           
     }
 }
