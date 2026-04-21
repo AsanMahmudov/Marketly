@@ -9,10 +9,10 @@ namespace Marketly.Core.Services
 {
     public class AdService : IAdService
     {
-        private readonly IRepository repository;
+        private readonly IApplicationRepository repository;
         private readonly IWebHostEnvironment environment;
 
-        public AdService(IRepository _repository, IWebHostEnvironment _environment)
+        public AdService(IApplicationRepository _repository, IWebHostEnvironment _environment)
         {
             repository = _repository;
             environment = _environment;

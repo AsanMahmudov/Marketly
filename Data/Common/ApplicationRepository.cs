@@ -1,4 +1,5 @@
-﻿using Marketly.Data.Common;
+﻿using Marketly.Core.Interfaces;
+using Marketly.Data.Common;
 using Marketly.Web.Data;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Marketly.Core.Common
 {
-    public class ApplicationRepository : BaseRepository, IRepository
+    public class ApplicationRepository : BaseRepository, IApplicationRepository
     {
         public ApplicationRepository(ApplicationDbContext context) 
             : base(context)

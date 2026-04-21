@@ -8,8 +8,8 @@ namespace Marketly.Core.Services
 {
     public class UserService : IUserService
     {
-        private readonly IRepository repository;
-        public UserService(IRepository _repository) => repository = _repository;
+        private readonly IApplicationRepository repository;
+        public UserService(IApplicationRepository _repository) => repository = _repository;
 
         public async Task<UserProfileViewModel> GetUserProfileAsync(string userId)
         {

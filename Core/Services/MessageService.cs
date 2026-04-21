@@ -8,8 +8,8 @@ namespace Marketly.Core.Services
 {
     public class MessageService : IMessageService
     {
-        private readonly IRepository repository;
-        public MessageService(IRepository _repository) => repository = _repository;
+        private readonly IApplicationRepository repository;
+        public MessageService(IApplicationRepository _repository) => repository = _repository;
 
         public async Task<IEnumerable<MessageInboxViewModel>> GetUserMessagesAsync(string userId)
         {

@@ -1,4 +1,5 @@
 ﻿using Marketly.Core.Common;
+using Marketly.Core.Interfaces;
 using Marketly.Web.Data;
 using Microsoft.EntityFrameworkCore;
 

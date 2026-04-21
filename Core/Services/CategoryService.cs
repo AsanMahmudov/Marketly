@@ -8,9 +8,9 @@ namespace Marketly.Core.Services
 {
     public class CategoryService : ICategoryService
     {
-        private readonly IRepository repository;
+        private readonly IApplicationRepository repository;
 
-        public CategoryService(IRepository _repository)
+        public CategoryService(IApplicationRepository _repository)
             => repository = _repository;
 
         public async Task<IEnumerable<AdCategoryViewModel>> AllCategoriesAsync()

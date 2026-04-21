@@ -26,7 +26,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => {
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddScoped<IRepository, ApplicationRepository>();
+builder.Services.AddScoped<IApplicationRepository, ApplicationRepository>();
 builder.Services.AddScoped<IAdService, AdService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IUserService, UserService>();
