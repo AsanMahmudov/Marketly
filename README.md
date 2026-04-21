@@ -46,3 +46,6 @@ The project is built following the **3-Layer Architecture** pattern to ensure a 
 * **Unit Testing:** The project includes a robust test suite using **NUnit** and **Moq**.
 * **Async Mocking:** We utilized `MockQueryable` to simulate complex asynchronous EF Core operations like `ToListAsync()` and `CountAsync()` in a unit test environment.
 * **Coverage:** Business logic services (Ads, Categories, Messages, and Users) maintain high code coverage.
+
+* ## 📜 License
+Distributed under the **MIT License**. See the `LICENSE` file for the full text of the agreement.
