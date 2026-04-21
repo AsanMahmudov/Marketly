@@ -1,16 +1,19 @@
 ﻿@model IEnumerable<Marketly.Core.ViewModels.AdMinifiedViewModel>
 
 <div class="container py-4">
-    <div class="border-bottom pb-3 mb-4">
-        <h2>Your Watchlist</h2>
-        <p class="text-muted">You have @Model.Count() saved items.</p>
+    <div class="border-bottom pb-3 mb-4 d-flex justify-content-between align-items-center">
+        <div>
+            <h2>Your Watchlist</h2>
+            <p class="text-muted mb-0">You have @Model.Count() saved items.</p>
+        </div>
+        <button onclick="history.back()" class="btn btn-outline-secondary btn-sm">Back</button>
     </div>
 
     @if (!Model.Any())
     {
         <div class="text-center py-5">
             <h4 class="text-muted">Your watchlist is currently empty.</h4>
-            <a asp-action="All" class="btn btn-primary mt-3">Browse Marketplace</a>
+            <a asp-controller="Home" asp-action="All" class="btn btn-primary mt-3">Browse Marketplace</a>
         </div>
     }
     else
@@ -19,7 +22,18 @@
             @foreach (var ad in Model)
             {
                 <div class="col">
-                    <partial name="_AdCardPartial" model="ad" />
+                    <div class="card h-100 shadow-sm border-0">
+                        <partial name="_AdCardPartial" model="ad" />
+
+                        <div class="card-footer bg-white border-top-0 pb-3">
+                            <form asp-controller="Users" asp-action="RemoveFromWatchlist" asp-route-id="@ad.Id" method="post">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-sm btn-outline-danger w-100">
+                                    <i class="bi bi-trash"></i> Remove
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             }
         </div>
