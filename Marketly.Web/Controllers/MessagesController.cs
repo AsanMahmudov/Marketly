@@ -10,13 +10,8 @@ namespace Marketly.Web.Controllers
     public class MessagesController : Controller
     {
         private readonly IMessageService messageService;
+        public MessagesController(IMessageService _messageService) => messageService = _messageService;
 
-        public MessagesController(IMessageService _messageService)
-            => messageService = _messageService;
-
-        /// <summary>
-        /// Displays the user's conversation history.
-        /// </summary>
         public async Task<IActionResult> Inbox()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -24,47 +19,23 @@ namespace Marketly.Web.Controllers
             return View(messages);
         }
 
-        /// <summary>
-        /// Loads the message creation form. 
-        /// Matches the 'Message Seller' button on the Ad Details page.
-        /// </summary>
         public IActionResult Create(string recipientId, int adId)
         {
-            var model = new MessageFormModel
-            {
-                RecipientId = recipientId,
-                RelatedAdId = adId
-            };
-
-            return View(model);
+            return View(new MessageFormModel { RecipientId = recipientId, RelatedAdId = adId });
         }
 
-        /// <summary>
-        /// Processes the message submission.
-        /// Matches the form in Create.cshtml.
-        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(MessageFormModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+            if (!ModelState.IsValid) return View(model);
 
             var senderId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            // Prevent users from messaging themselves
-            if (senderId == model.RecipientId)
-            {
-                return BadRequest("You cannot send a message to yourself.");
-            }
+            if (senderId == model.RecipientId) return BadRequest("Cannot message yourself.");
 
             await messageService.SendMessageAsync(model, senderId);
-
             return RedirectToAction(nameof(Inbox));
         }
-
 
         public async Task<IActionResult> Details(int id)
         {
@@ -72,8 +43,7 @@ namespace Marketly.Web.Controllers
             var thread = await messageService.GetConversationAsync(id, userId);
 
             if (thread == null || !thread.Any()) return NotFound();
-
-            return View(thread); // Pass the list to your new Thread View
+            return View(thread);
         }
     }
 }

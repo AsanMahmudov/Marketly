@@ -3,36 +3,45 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-[Authorize]
-public class UsersController : Controller
+namespace Marketly.Web.Controllers
 {
-    private readonly IUserService userService;
-    public UsersController(IUserService _userService) => userService = _userService;
-
-    [AllowAnonymous]
-    public async Task<IActionResult> Profile(string id)
+    [Authorize]
+    public class UsersController : Controller
     {
-        var model = await userService.GetUserProfileAsync(id);
+        private readonly IUserService userService;
+        public UsersController(IUserService _userService) => userService = _userService;
 
-        if (model == null)
+        [AllowAnonymous]
+        public async Task<IActionResult> Profile(string id)
         {
-            return NotFound();
+            var model = await userService.GetUserProfileAsync(id);
+            if (model == null) return NotFound();
+            return View(model);
         }
 
-        return View("Profile", model);
-    }
+        public async Task<IActionResult> Watchlist()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var ads = await userService.GetFavoriteAdsAsync(userId);
+            return View(ads);
+        }
 
-    public async Task<IActionResult> Watchlist()
-    {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var ads = await userService.GetFavoriteAdsAsync(userId);
-        return View(ads); 
-    }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddToWatchlist(int id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            await userService.AddToFavoritesAsync(userId, id);
+            return RedirectToAction(nameof(Watchlist));
+        }
 
-    [HttpPost]
-    public async Task<IActionResult> AddToWatchlist(int id)
-    {
-        await userService.AddToFavoritesAsync(User.FindFirstValue(ClaimTypes.NameIdentifier), id);
-        return RedirectToAction(nameof(Watchlist));
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveFromWatchlist(int id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            await userService.RemoveFromFavoritesAsync(userId, id);
+            return RedirectToAction(nameof(Watchlist));
+        }
     }
 }
