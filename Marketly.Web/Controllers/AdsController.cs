@@ -17,22 +17,6 @@ public class AdsController : Controller
     }
 
     [AllowAnonymous]
-    public async Task<IActionResult> All([FromQuery] AdQueryModel query)
-    {
-        var serviceModel = await adService.AllAsync(
-        query.SelectedCategory,
-        query.SearchTerm,
-        query.CurrentPage == 0 ? 1 : query.CurrentPage,
-        8);
-
-        query.TotalAds = serviceModel.TotalAds;
-        query.Ads = serviceModel.Ads;
-        query.TotalPages = serviceModel.TotalPages;
-        query.Categories = await categoryService.AllCategoriesAsync();
-        return View(query);
-    }
-
-    [AllowAnonymous]
     public async Task<IActionResult> Details(int id)
     {
         if (!await adService.ExistsAsync(id)) return NotFound();
@@ -52,7 +36,7 @@ public class AdsController : Controller
             return View(model);
         }
         await adService.CreateAsync(model, User.FindFirstValue(ClaimTypes.NameIdentifier));
-        return RedirectToAction(nameof(All));
+        return RedirectToAction("Index", "Home");
     }
 
     public async Task<IActionResult> Edit(int id)

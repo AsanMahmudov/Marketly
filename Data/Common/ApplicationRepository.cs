@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Marketly.Core.Common
 {
-    public class ApplicationRepository : BaseRepository, IApplicationRepository
+    public class ApplicationRepository : BaseRepository, IRepository
     {
         public ApplicationRepository(ApplicationDbContext context) 
             : base(context)
