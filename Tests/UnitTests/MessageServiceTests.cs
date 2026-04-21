@@ -32,7 +32,7 @@ public class MessageServiceTests
 
         var result = await _messageService.GetUserMessagesAsync(myId);
 
-        Assert.That(result.Count(), Is.EqualTo(1)); // Should group into one conversation
-        Assert.That(result.First().SenderName, Is.EqualTo("User")); // Latest message was from 'otherId'
+        Assert.That(result.Count(), Is.EqualTo(1)); 
+        Assert.That(result.First().SenderName, Is.EqualTo("User")); 
     }
 }
