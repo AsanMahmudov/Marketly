@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36518.9 d17.14
+VisualStudioVersion = 17.14.36518.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marketly.Core", "Core\Marketly.Core.csproj", "{2F54017E-11CA-4A2C-8214-C9C8AED5F84D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marketly.Data", "Data\Marketly.Data.csproj", "{20E58985-004F-485F-BD7F-3C0DDB4DD0D3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marketly.Web", "Marketly.Web\Marketly.Web.csproj", "{E7B74A61-9762-4A1C-DB80-68953A244B57}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{BF868FBE-1F4C-4377-8D6A-861301F211CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{E7B74A61-9762-4A1C-DB80-68953A244B57}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7B74A61-9762-4A1C-DB80-68953A244B57}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7B74A61-9762-4A1C-DB80-68953A244B57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF868FBE-1F4C-4377-8D6A-861301F211CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF868FBE-1F4C-4377-8D6A-861301F211CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF868FBE-1F4C-4377-8D6A-861301F211CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF868FBE-1F4C-4377-8D6A-861301F211CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
