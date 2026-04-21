@@ -175,5 +175,21 @@ namespace Marketly.Core.Services
                 })
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<AdMinifiedViewModel>> GetAdsByUserIdAsync(string userId)
+        {
+            return await repository.All<Ad>()
+                .Where(a => a.SellerId == userId && a.IsActive) // Only show active ads
+                .OrderByDescending(a => a.CreatedOn)
+                .Select(a => new AdMinifiedViewModel
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    Price = a.Price,
+                    Category = a.Category.Name,
+                    ImageUrl = a.Images.Any() ? a.Images.First().Url : "/img/no-image.png"
+                })
+                .ToListAsync();
+        }
     }
 }

@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<Marketly.Core.ViewModels.MessageInboxViewModel>
 
+@{
+    var firstMsg = Model.FirstOrDefault();
+}
+
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -8,34 +12,44 @@
             </a>
 
             <div class="card shadow-sm border-0">
-                <div class="card-header bg-white py-3">
-                    <h5 class="mb-0">Conversation Thread</h5>
+                <div class="card-header bg-white py-3 border-bottom">
+                    <div class="d-flex align-items-center">
+                        <img src="@firstMsg?.AdImageUrl" class="rounded me-3"
+                             style="width: 60px; height: 60px; object-fit: cover;" alt="Ad Image">
+                        <div>
+                            <h6 class="mb-0 fw-bold">@firstMsg?.AdTitle</h6>
+                            <small class="text-muted">Chatting about Ad #@firstMsg?.RelatedAdId</small>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body p-4 bg-light" style="max-height: 500px; overflow-y: auto;">
+
+                <div class="card-body p-4 bg-light" style="height: 450px; overflow-y: auto;">
                     @foreach (var msg in Model)
                     {
                         bool isMe = msg.SenderName == "Me";
                         <div class="d-flex @(isMe ? "justify-content-end" : "justify-content-start") mb-3">
-                            <div class="p-3 rounded shadow-sm @(isMe ? "bg-primary text-white" : "bg-white text-dark")" style="max-width: 80%;">
+                            <div class="p-3 rounded shadow-sm @(isMe ? "bg-primary text-white" : "bg-white text-dark")"
+                                 style="max-width: 75%; border-radius: 15px !important;">
                                 <p class="mb-1">@msg.Content</p>
-                                <small class="d-block text-end @(isMe ? "text-white-50" : "text-muted")" style="font-size: 0.7rem;">
-                                    @msg.SentDate.ToString("g")
+                                <small class="d-block @(isMe ? "text-white-50" : "text-muted")" style="font-size: 0.7rem;">
+                                    @msg.SentDate.ToString("t")
                                 </small>
                             </div>
                         </div>
                     }
                 </div>
+
                 <div class="card-footer bg-white p-3">
-                    @{
+                    @if (firstMsg != null)
+                    {
                         var lastMsg = Model.Last();
-                        // If I sent the last message, the recipient is the ReceiverId.
-                        // If they sent it, the recipient is the SenderId.
                         var recipientId = lastMsg.SenderName == "Me" ? lastMsg.ReceiverId : lastMsg.SenderId;
+
+                        <a asp-action="Create"
+                           asp-route-recipientId="@recipientId"
+                           asp-route-adId="@lastMsg.RelatedAdId"
+                           class="btn btn-primary w-100 py-2">Reply to Message</a>
                     }
-                    <a asp-action="Create"
-                       asp-route-recipientId="@recipientId"
-                       asp-route-adId="@lastMsg.RelatedAdId"
-                       class="btn btn-primary w-100">Reply to Conversation</a>
                 </div>
             </div>
         </div>

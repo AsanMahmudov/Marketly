@@ -68,12 +68,12 @@ namespace Marketly.Web.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            IEnumerable<MessageInboxViewModel> thread = await messageService.GetConversationAsync(id, userId);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var thread = await messageService.GetConversationAsync(id, userId);
 
-            if (!thread.Any()) return NotFound();
+            if (thread == null || !thread.Any()) return NotFound();
 
-            return View(thread); 
+            return View(thread); // Pass the list to your new Thread View
         }
     }
 }
